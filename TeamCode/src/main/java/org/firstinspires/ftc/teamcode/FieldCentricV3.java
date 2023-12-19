@@ -122,15 +122,15 @@ public class FieldCentricV3 extends LinearOpMode {
             outtake.setPower(gamepad2.right_trigger);
 
             if (gamepad2.a) {
-                leftJoint.setPosition(0.49);
-                rightJoint.setPosition(0.49);
+                leftJoint.setPosition(0.61);
+                rightJoint.setPosition(0.61);
             }
             if (gamepad2.b) {
                 leftJoint.setPosition(1.0);
                 rightJoint.setPosition(1.0);
             }
-            leftArm.setPower(-gamepad2.left_stick_y);
-            rightArm.setPower(gamepad2.left_stick_y);
+            leftArm.setPower(gamepad2.left_stick_y);
+            rightArm.setPower(-gamepad2.left_stick_y);
 
             leftArm.setPower(-0.08);
             rightArm.setPower(0.08);
@@ -211,8 +211,8 @@ public class FieldCentricV3 extends LinearOpMode {
                 telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
             }
 
-            if (detection.id < 7 && detection.id > 0 && detection.ftcPose.y < 18) {
-                speedLimiter = 0.5;
+            if (detection.id < 7 && detection.id > 0 && detection.ftcPose.y < 25) {
+                speedLimiter = 0.4;
             } else {
                 speedLimiter = 1.0;
             }
