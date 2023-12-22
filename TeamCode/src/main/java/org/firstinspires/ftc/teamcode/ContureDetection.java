@@ -1,15 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-        import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-        import org.opencv.core.Scalar;
-        import org.openftc.easyopencv.OpenCvCamera;
-        import org.openftc.easyopencv.OpenCvCameraFactory;
-        import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.opencv.core.Scalar;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
+@Config
 @Autonomous(name="opencv")
 public class ContureDetection extends LinearOpMode {
     private OpenCvCamera webcam;
@@ -39,8 +41,7 @@ public class ContureDetection extends LinearOpMode {
 //    public static Scalar scalarUpperYCrCb = new Scalar(255.0, 170.0, 120.0);
 
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
         // OpenCV webcam
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -75,10 +76,9 @@ public class ContureDetection extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        while (opModeIsActive())
-        {
+        while (opModeIsActive()) {
             myPipeline.configureBorders(borderLeftX, borderRightX, borderTopY, borderBottomY);
-            if(myPipeline.error){
+            if(myPipeline.error) {
                 telemetry.addData("Exception: ", myPipeline.debug);
             }
             // Only use this line of the code when you want to find the lower and upper values
@@ -87,11 +87,11 @@ public class ContureDetection extends LinearOpMode {
             telemetry.addData("RectArea: ", myPipeline.getRectArea());
             telemetry.update();
 
-            if(myPipeline.getRectArea() > 2000){
-                if(myPipeline.getRectMidpointX() > 400){
+            if (myPipeline.getRectArea() > 2000) {
+                if (myPipeline.getRectMidpointX() > 400) {
                     AUTONOMOUS_C();
                 }
-                else if(myPipeline.getRectMidpointX() > 200){
+                else if (myPipeline.getRectMidpointX() > 200) {
                     AUTONOMOUS_B();
                 }
                 else {
@@ -100,7 +100,7 @@ public class ContureDetection extends LinearOpMode {
             }
         }
     }
-    public void testing(ContourPipeline myPipeline){
+    public void testing(ContourPipeline myPipeline) {
         if(lowerruntime + 0.05 < getRuntime()){
             CrLowerUpdate += -gamepad1.left_stick_y;
             CbLowerUpdate += gamepad1.left_stick_x;
@@ -125,7 +125,7 @@ public class ContureDetection extends LinearOpMode {
         telemetry.addData("UpperCr ", (int)CrUpperUpdate);
         telemetry.addData("UpperCb ", (int)CbUpperUpdate);
     }
-    public Double inValues(double value, double min, double max){
+    public Double inValues(double value, double min, double max) {
         if(value < min){ value = min; }
         if(value > max){ value = max; }
         return value;

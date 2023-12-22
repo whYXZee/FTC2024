@@ -17,7 +17,7 @@ import java.util.List;
 // Credits to team 7303 RoboAvatars, adjusted by team 3954 Pink to the Future
 
 public class ContourPipeline extends OpenCvPipeline {
-    Scalar HOT_PINK = new Scalar(252, 71, 89); //it isnt hotpink its red
+    Scalar Red = new Scalar(252, 71, 89); //it isnt hotpink its red
 
     // Pink, the default color                         Y      Cr     Cb    (Do not change Y)
     public static Scalar scalarLowerYCrCb = new Scalar(0.0, 150.0, 120.0);
@@ -156,7 +156,7 @@ public class ContourPipeline extends OpenCvPipeline {
                     (int) (borderTopY * CAMERA_HEIGHT),
                     (int) (CAMERA_WIDTH - (borderRightX * CAMERA_WIDTH) - (borderLeftX * CAMERA_WIDTH)),
                     (int) (CAMERA_HEIGHT - (borderBottomY * CAMERA_HEIGHT) - (borderTopY * CAMERA_HEIGHT))
-            ), HOT_PINK, 2);
+            ), Red, 2);
 
             // Display Data
             Imgproc.putText(input, "Area: " + getRectArea() + " Midpoint: " + getRectMidpointXY().x + " , " + getRectMidpointXY().y, new Point(5, CAMERA_HEIGHT - 5), 0, 0.6, new Scalar(255, 255, 255), 2);
