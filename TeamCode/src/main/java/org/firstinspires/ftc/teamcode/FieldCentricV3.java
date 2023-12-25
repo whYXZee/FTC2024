@@ -150,8 +150,8 @@ public class FieldCentricV3 extends LinearOpMode {
             }
             if (tick == 100) {
                 if (gamepad2.left_stick_y == 0) {
-                    leftArm.setPower(0);
-                    rightArm.setPower(0);
+                    leftArm.setPower(-0.08);
+                    rightArm.setPower(0.08);
                 }
                 tick = 0;
             }
