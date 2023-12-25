@@ -34,6 +34,7 @@ public class FieldCentricV3 extends LinearOpMode {
     private CRServo outtake;
     private DcMotor rightArm;
     private DcMotor leftArm;
+    private int tick = 0;
 
     private static final boolean USE_WEBCAM = true;
     private AprilTagProcessor aprilTag;
@@ -116,10 +117,44 @@ public class FieldCentricV3 extends LinearOpMode {
             frontRightMotor.setPower(frontRightPower * speedLimiter);
             backRightMotor.setPower(backRightPower * speedLimiter);
 
-            intakeMotor.setPower(gamepad2.left_trigger);
-            outtake.setPower(-gamepad2.left_trigger);
-            intakeMotor.setPower(-gamepad2.right_trigger);
-            outtake.setPower(gamepad2.right_trigger);
+            if (gamepad2.left_trigger == 1) {
+                intakeMotor.setPower(1);
+                outtake.setPower(-1);
+            }
+            if (gamepad2.right_trigger == 1) {
+                intakeMotor.setPower(-1);
+                outtake.setPower(1);
+            }
+
+            if (tick == 100) {
+                if (!(gamepad2.left_trigger == 1) || !(gamepad2.left_trigger == 1)) {
+                    intakeMotor.setPower(0);
+                }
+                tick = 0;
+            }
+
+            if (tick == 100) {
+                if (!(gamepad2.left_trigger == 1) || !(gamepad2.left_trigger == 1)) {
+                    outtake.setPower(0);
+                }
+                tick = 0;
+            }
+
+            if (gamepad2.left_stick_y > 0) {
+                leftArm.setPower(1);
+                rightArm.setPower(-1);
+            }
+            if (gamepad2.left_stick_y < 0) {
+                leftArm.setPower(-1);
+                rightArm.setPower(-1);
+            }
+            if (tick == 100) {
+                if (gamepad2.left_stick_y == 0) {
+                    leftArm.setPower(0);
+                    rightArm.setPower(0);
+                }
+                tick = 0;
+            }
 
             if (gamepad2.a) {
                 leftJoint.setPosition(0.61);
@@ -129,11 +164,8 @@ public class FieldCentricV3 extends LinearOpMode {
                 leftJoint.setPosition(1.0);
                 rightJoint.setPosition(1.0);
             }
-            leftArm.setPower(gamepad2.left_stick_y);
-            rightArm.setPower(-gamepad2.left_stick_y);
 
-            leftArm.setPower(-0.08);
-            rightArm.setPower(0.08);
+            tick++;
             telemetry.addData("left Positon", leftJoint.getPosition());
             telemetry.addData("right position", rightJoint.getPosition());
             telemetry.update();
