@@ -85,6 +85,7 @@ public class FieldCentricV3 extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
+            speedLimiter = 1;
             telemetryAprilTag();
 
             // Push telemetry to the Driver Station.
