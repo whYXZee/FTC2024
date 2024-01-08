@@ -73,7 +73,7 @@ public class FieldCentricV3 extends LinearOpMode {
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         // Without this, data retrieving from the IMU throws and exception
         imu.initialize(parameters);
-
+    //hi
         initAprilTag();
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
@@ -128,42 +128,37 @@ public class FieldCentricV3 extends LinearOpMode {
             }
 
             if (tick == 100) {
-                if (!(gamepad2.left_trigger == 1) || !(gamepad2.left_trigger == 1)) {
+                if (!(gamepad2.right_trigger == 1) || !(gamepad2.left_trigger == 1)) {
                     intakeMotor.setPower(0);
-                }
-                tick = 0;
-            }
-
-            if (tick == 100) {
-                if (!(gamepad2.left_trigger == 1) || !(gamepad2.left_trigger == 1)) {
                     outtake.setPower(0);
                 }
                 tick = 0;
             }
 
-            if (gamepad2.left_stick_y > 0) {
+            if (gamepad2.right_bumper) {
                 leftArm.setPower(1);
                 rightArm.setPower(-1);
             }
-            if (gamepad2.left_stick_y < 0) {
+            if (gamepad2.left_bumper) {
                 leftArm.setPower(-1);
-                rightArm.setPower(-1);
+                rightArm.setPower(1);
             }
-            if (tick == 100) {
+            if (tick == 99) {
                 if (gamepad2.left_stick_y == 0) {
-                    leftArm.setPower(-0.08);
-                    rightArm.setPower(0.08);
+                    leftArm.setPower(-0.06);
+                    rightArm.setPower(0.06);
                 }
-                tick = 0;
             }
 
             if (gamepad2.a) {
-                leftJoint.setPosition(0.61);
-                rightJoint.setPosition(0.61);
+                leftJoint.setPosition(0.66);
+                rightJoint.setPosition(0.66);
+                sleep(1);
             }
             if (gamepad2.b) {
-                leftJoint.setPosition(1.0);
-                rightJoint.setPosition(1.0);
+                leftJoint.setPosition(0.96);
+                rightJoint.setPosition(0.96);
+                sleep(1);
             }
 
             tick++;
