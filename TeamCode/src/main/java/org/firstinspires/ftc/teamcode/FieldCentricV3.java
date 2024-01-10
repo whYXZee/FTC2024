@@ -119,12 +119,12 @@ public class FieldCentricV3 extends LinearOpMode {
             backRightMotor.setPower(backRightPower * speedLimiter);
 
             if (gamepad2.left_trigger == 1) {
-                intakeMotor.setPower(1);
-                outtake.setPower(-1);
+                intakeMotor.setPower(0.5);
+                outtake.setPower(-0.7);
             }
             if (gamepad2.right_trigger == 1) {
-                intakeMotor.setPower(-1);
-                outtake.setPower(1);
+                intakeMotor.setPower(-0.5);
+                outtake.setPower(0.7);
             }
 
             if (tick == 100) {
@@ -136,14 +136,14 @@ public class FieldCentricV3 extends LinearOpMode {
             }
 
             if (gamepad2.right_bumper) {
-                leftArm.setPower(1);
-                rightArm.setPower(-1);
+                leftArm.setPower(1*0.25);
+                rightArm.setPower(-1*0.25);
             }
             if (gamepad2.left_bumper) {
-                leftArm.setPower(-1);
-                rightArm.setPower(1);
+                leftArm.setPower(-1*0.25);
+                rightArm.setPower(1*0.25);
             }
-            if (tick == 99) {
+            if (tick == 50) {
                 if (gamepad2.left_stick_y == 0) {
                     leftArm.setPower(-0.06);
                     rightArm.setPower(0.06);
