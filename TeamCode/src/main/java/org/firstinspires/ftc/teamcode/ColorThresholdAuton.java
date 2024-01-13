@@ -91,7 +91,7 @@ public class ColorThresholdAuton extends LinearOpMode {
         // Enter the wheel diameter of your robot in MM
         wheelDiameter = 96;
         // Enter the desired speed of the robot in in/sec
-        velocity = 50;
+        velocity = 30;
         // Enter the motor encoder ticks per rev
         motorTicksPerRev = 28;
         // Enter the gear ratio for your drive motors
@@ -122,7 +122,7 @@ public class ColorThresholdAuton extends LinearOpMode {
         myPipeline.configureScalarUpper(scalarUpperYCrCb.val[0],scalarUpperYCrCb.val[1],scalarUpperYCrCb.val[2]);
         // Webcam Streaming
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-            @Override
+//            @Override
             public void onOpened() {
                 webcam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
             }
@@ -156,12 +156,12 @@ public class ColorThresholdAuton extends LinearOpMode {
 
             telemetry.addData("Box Midpoint", myPipeline.getRectMidpointX());
             // telemetry.update();
-            sleep(10000);
+            sleep(1000);
 
             // if (myPipeline.getRectArea() > 0.5) {
                 if (myPipeline.getRectMidpointX() > 1000) {
                     AUTONOMOUS_A();
-                } else if (myPipeline.getRectMidpointX() > 400) {
+                } else if (myPipeline.getRectMidpointX() > 300) {
                     AUTONOMOUS_B();
                 } else {
                     AUTONOMOUS_C();
@@ -175,7 +175,6 @@ public class ColorThresholdAuton extends LinearOpMode {
                 telemetry.update();
                 sleep(3000);
                 Drive_Robot_in__Y_Direction2(30);
-                Rotate_robot__rz_direction2(90);
 
             }
             // if position 3
@@ -184,7 +183,6 @@ public class ColorThresholdAuton extends LinearOpMode {
                 telemetry.update();
                 sleep(3000);
                 Drive_Robot_in__Y_Direction2(30);
-                Rotate_robot__rz_direction(90);
 
 
             } else if (position == 2){
@@ -194,7 +192,7 @@ public class ColorThresholdAuton extends LinearOpMode {
 
                 Drive_Robot_in__Y_Direction2(30);
                 Drive_Robot_in__Y_Direction(8);
-                Rotate_robot__rz_direction(180);
+
             }
         }
 
@@ -327,7 +325,7 @@ public class ColorThresholdAuton extends LinearOpMode {
         ((DcMotorEx) backLeftMotor).setVelocity(velocity * ticksPerInch);
         ((DcMotorEx) frontRightMotor).setVelocity(velocity * ticksPerInch);
         ((DcMotorEx) backRightMotor).setVelocity(velocity * ticksPerInch);
-        while (backLeftMotor.isBusy() && !isStopRequested()) {
+        while (frontRightMotor.isBusy() && !isStopRequested()) {
             telemetry.addData("Status:", "Rotating the robot in +rz, Waiting for the robot to reach its target position");
             Report_Current_Position_of_Motors();
             telemetry.update();

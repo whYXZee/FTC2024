@@ -31,6 +31,7 @@ public class FieldCentricV3 extends LinearOpMode {
     private DcMotor intakeMotor;
     private Servo leftJoint;
     private Servo rightJoint;
+    private Servo drone;
     private CRServo outtake;
     private DcMotor rightArm;
     private DcMotor leftArm;
@@ -41,7 +42,8 @@ public class FieldCentricV3 extends LinearOpMode {
     private VisionPortal visionPortal;
 
     double power = 1;
-    double speedLimiter = 1.0;
+    double speedLimiter = 0.55;
+    double slideslimiter = 0.25;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -54,6 +56,7 @@ public class FieldCentricV3 extends LinearOpMode {
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
         leftJoint = hardwareMap.get(Servo.class, "leftJoint");
         rightJoint = hardwareMap.get(Servo.class, "rightJoint");
+        drone = hardwareMap.get(Servo.class, "drone");
         outtake = hardwareMap.get(CRServo.class, "outtake");
         rightArm = hardwareMap.dcMotor.get("rightArm");
         leftArm = hardwareMap.dcMotor.get("leftArm");
@@ -73,7 +76,7 @@ public class FieldCentricV3 extends LinearOpMode {
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         // Without this, data retrieving from the IMU throws and exception
         imu.initialize(parameters);
-    //hi
+        //hi
         initAprilTag();
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
@@ -126,6 +129,9 @@ public class FieldCentricV3 extends LinearOpMode {
                 intakeMotor.setPower(-0.5);
                 outtake.setPower(0.7);
             }
+            if (gamepad1.b) {
+                drone.setPosition(0.5);
+            }
 
             if (tick == 100) {
                 if (!(gamepad2.right_trigger == 1) || !(gamepad2.left_trigger == 1)) {
@@ -136,12 +142,12 @@ public class FieldCentricV3 extends LinearOpMode {
             }
 
             if (gamepad2.right_bumper) {
-                leftArm.setPower(1*0.25);
-                rightArm.setPower(-1*0.25);
+                leftArm.setPower(1*slideslimiter);
+                rightArm.setPower(-1*slideslimiter);
             }
             if (gamepad2.left_bumper) {
-                leftArm.setPower(-1*0.25);
-                rightArm.setPower(1*0.25);
+                leftArm.setPower(-1*slideslimiter);
+                rightArm.setPower(1*slideslimiter);
             }
             if (tick == 50) {
                 if (gamepad2.left_stick_y == 0) {
@@ -149,15 +155,17 @@ public class FieldCentricV3 extends LinearOpMode {
                     rightArm.setPower(0.06);
                 }
             }
-
+            if(gamepad2.y){
+                slideslimiter = 1.0;
+            }
             if (gamepad2.a) {
                 leftJoint.setPosition(0.66);
                 rightJoint.setPosition(0.66);
                 sleep(1);
             }
             if (gamepad2.b) {
-                leftJoint.setPosition(0.96);
-                rightJoint.setPosition(0.96);
+                leftJoint.setPosition(0.95);
+                rightJoint.setPosition(0.95);
                 sleep(1);
             }
 
@@ -255,4 +263,3 @@ public class FieldCentricV3 extends LinearOpMode {
 
     }
 }
-
