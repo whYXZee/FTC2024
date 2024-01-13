@@ -42,7 +42,7 @@ public class FieldCentricV3 extends LinearOpMode {
     private VisionPortal visionPortal;
 
     double power = 1;
-    double speedLimiter = 0.55;
+    double speedLimiter = 0.40;
     double slideslimiter = 0.25;
 
     @Override

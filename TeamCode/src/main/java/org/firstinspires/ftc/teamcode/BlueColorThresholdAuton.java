@@ -32,7 +32,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 @Config
 @Autonomous
 
-public class ColorThresholdAuton extends LinearOpMode {
+public class BlueColorThresholdAuton extends LinearOpMode {
     public int position;
     private OpenCvCamera webcam;
 
@@ -65,8 +65,8 @@ public class ColorThresholdAuton extends LinearOpMode {
     private double upperruntime = 0;
 
     // Pink Range                                      Y      Cr     Cb
-    public static Scalar scalarLowerYCrCb = new Scalar(  0.0, 160.0, 100.0);
-    public static Scalar scalarUpperYCrCb = new Scalar(255.0, 255.0, 255.0);
+    public static Scalar scalarLowerYCrCb = new Scalar(  0.0, 60.0, 60.0);
+    public static Scalar scalarUpperYCrCb = new Scalar(215.0, 115.0, 115.0);
 
     public void runOpMode() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -122,7 +122,7 @@ public class ColorThresholdAuton extends LinearOpMode {
         myPipeline.configureScalarUpper(scalarUpperYCrCb.val[0],scalarUpperYCrCb.val[1],scalarUpperYCrCb.val[2]);
         // Webcam Streaming
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-//            @Override
+            //            @Override
             public void onOpened() {
                 webcam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
             }
@@ -159,13 +159,13 @@ public class ColorThresholdAuton extends LinearOpMode {
             sleep(1000);
 
             // if (myPipeline.getRectArea() > 0.5) {
-                if (myPipeline.getRectMidpointX() > 1000) {
-                    AUTONOMOUS_A();
-                } else if (myPipeline.getRectMidpointX() > 300) {
-                    AUTONOMOUS_B();
-                } else {
-                    AUTONOMOUS_C();
-                }
+            if (myPipeline.getRectMidpointX() > 1000) {
+                AUTONOMOUS_A();
+            } else if (myPipeline.getRectMidpointX() > 300) {
+                AUTONOMOUS_B();
+            } else {
+                AUTONOMOUS_C();
+            }
             // }
 
 
@@ -173,29 +173,51 @@ public class ColorThresholdAuton extends LinearOpMode {
             if (position == 1) {
                 telemetry.addLine("Position 1");
                 telemetry.update();
-                sleep(3000);
-                Drive_Robot_in__Y_Direction2(30);
-
+                runToPosition(-600, 600, -600, 600, 0.3);
+                runToPosition(-100, 100, -100, 100, 0.3);
+                intakeMotor.setPower(1);
+                sleep(1500);
             }
             // if position 3
             else if (position == 3) {
                 telemetry.addLine("Position 3");
                 telemetry.update();
-                sleep(3000);
-                Drive_Robot_in__Y_Direction2(30);
-
+                runToPosition(-600, 600, -600, 600, 0.3);
+                runToPosition(100, -100, 100, -100, 0.3);
+                intakeMotor.setPower(1);
+                sleep(1500);
 
             } else if (position == 2){
                 telemetry.addLine("Position 2");
                 telemetry.update();
-                sleep(3000);
-
-                Drive_Robot_in__Y_Direction2(30);
-                Drive_Robot_in__Y_Direction(8);
-
+                runToPosition(-900, 900, -900, 900, 0.3);
+                intakeMotor.setPower(1);
+                sleep(1500);
             }
         }
 
+    }
+    void runToPosition(int frontLeftPos, int frontRightPos, int backLeftPos, int backRightPos, double power) {
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeftMotor.setTargetPosition(frontLeftPos);
+        frontRightMotor.setTargetPosition(frontRightPos);
+        backLeftMotor.setTargetPosition(backLeftPos);
+        backRightMotor.setTargetPosition(backRightPos);
+
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        frontLeftMotor.setPower(power);
+        frontRightMotor.setPower(power);
+        backLeftMotor.setPower(power);
+        backRightMotor.setPower(power);
+        while(frontLeftMotor.isBusy() && frontRightMotor.isBusy() && backLeftMotor.isBusy() && backRightMotor.isBusy()) {}
     }
     public void testing(ContourPipeline myPipeline) {
         if(lowerruntime + 0.05 < getRuntime()){
