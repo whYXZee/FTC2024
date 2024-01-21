@@ -42,7 +42,7 @@ public class FieldCentricV3 extends LinearOpMode {
     private VisionPortal visionPortal;
 
     double power = 1;
-    double speedLimiter = 0.40;
+    double speedLimiter = 0.80;
     double slideslimiter = 0.25;
 
     @Override
@@ -250,7 +250,7 @@ public class FieldCentricV3 extends LinearOpMode {
             if (detection.id < 7 && detection.id > 0 && detection.ftcPose.y < 25) {
                 speedLimiter = 0.4;
             } else {
-                speedLimiter = 1.0;
+                speedLimiter = 0.8;
             }
         }   // end for() loop
 
