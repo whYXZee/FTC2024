@@ -138,12 +138,13 @@ public class RedColorThresholdAuton extends LinearOpMode {
         // Only if you are using ftcdashboard
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-        FtcDashboard.getInstance().startCameraStream(webcam, 10);
+        FtcDashboard.getInstance().startCameraStream(webcam, 30);
 
         telemetry.update();
         waitForStart();
 
         if (opModeIsActive()) {
+            sleep(1000);
             myPipeline.configureBorders(borderLeftX, borderRightX, borderTopY, borderBottomY);
             if (myPipeline.error) {
                 telemetry.addData("Exception: ", myPipeline.debug);
@@ -173,25 +174,35 @@ public class RedColorThresholdAuton extends LinearOpMode {
             if (position == 1) {
                 telemetry.addLine("Position 1");
                 telemetry.update();
-                runToPosition(1500, 1500, 1500, 1500, 0.4);
-                runToPosition(-300, -300, -300, -300, 0.4);
+                runToPosition(600, 600, 600, 600, 0.4);
+                runToPosition(-570, 570, -570, 570, 0.4);
+                runToPosition(-200, -200, -200, -200, 0.4);
+                //runToPosition(-300, -300, -300, -300, 0.4);
+                runToPosition(200, 200, 200, 200, 0.4);
                 intakeMotor.setPower(-1);
+                //runToPosition(-200, -200, -200, -200, 0.4);
                 sleep(1800);
             }
             // if position 3
             else if (position == 3) {
                 telemetry.addLine("Position 3");
                 telemetry.update();
-                runToPosition(1500, 1500, 1500, 1500, 0.4);
+                runToPosition(590, 590, 590, 590, 0.4);
+                runToPosition(565, -565, 565, -565, 0.4);
                 runToPosition(-300, -300, -300, -300, 0.4);
-                intakeMotor.setPower(-1);
-                sleep(1800);
+                //runToPosition(-300, -300, -300, -300, 0.4);
+                runToPosition(300, 300, 300, 300, 0.4);
+                intakeMotor.setPower(-0.9);
+                //sleep(250);
+                //runToPosition(-200, -200, -200, -200, 0.4);
+                sleep(1500);
 
             } else if (position == 2){
                 telemetry.addLine("Position 2");
                 telemetry.update();
-                runToPosition(1500, 1500, 1500, 1500, 0.4);
-                runToPosition(-300, -300, -300, -300, 0.4);
+                runToPosition(1100, 1100, 1100, 1100, 0.6);
+                intakeMotor.setPower(-1);
+                runToPosition(100, 100, 100, 100, 0.2);
                 intakeMotor.setPower(-1);
                 sleep(1800);
             }

@@ -51,8 +51,8 @@ public class BlueColorThresholdAuton extends LinearOpMode {
     private static final int CAMERA_WIDTH  = 1920; // width  of wanted camera resolution
     private static final int CAMERA_HEIGHT = 1080; // height of wanted camera resolution
 
-    private double CrLowerUpdate = 160;
-    private double CbLowerUpdate = 100;
+    private double CrLowerUpdate = 112;
+    private double CbLowerUpdate = 112;
     private double CrUpperUpdate = 255;
     private double CbUpperUpdate = 255;
 
@@ -65,8 +65,8 @@ public class BlueColorThresholdAuton extends LinearOpMode {
     private double upperruntime = 0;
 
     // Pink Range                                      Y      Cr     Cb
-    public static Scalar scalarLowerYCrCb = new Scalar(  0.0, 60.0, 60.0);
-    public static Scalar scalarUpperYCrCb = new Scalar(215.0, 115.0, 115.0);
+    public static Scalar scalarLowerYCrCb = new Scalar(130.0, 112.0, 112.0);
+    public static Scalar scalarUpperYCrCb = new Scalar(255.0, 255.0, 255.0);
 
     public void runOpMode() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -156,7 +156,7 @@ public class BlueColorThresholdAuton extends LinearOpMode {
 
             telemetry.addData("Box Midpoint", myPipeline.getRectMidpointX());
             // telemetry.update();
-            sleep(1000);
+            sleep(5000);
 
             // if (myPipeline.getRectArea() > 0.5) {
             if (myPipeline.getRectMidpointX() > 1000) {
@@ -173,26 +173,29 @@ public class BlueColorThresholdAuton extends LinearOpMode {
             if (position == 1) {
                 telemetry.addLine("Position 1");
                 telemetry.update();
-                runToPosition(-600, 600, -600, 600, 0.3);
-                runToPosition(-100, 100, -100, 100, 0.3);
-                intakeMotor.setPower(1);
-                sleep(1500);
+                runToPosition(1500, 1500, 1500, 1500, 0.4);
+                runToPosition(-300, -300, -300, -300, 0.4);
+                intakeMotor.setPower(-1);
+                sleep(1800);
             }
             // if position 3
             else if (position == 3) {
                 telemetry.addLine("Position 3");
                 telemetry.update();
-                runToPosition(-600, 600, -600, 600, 0.3);
-                runToPosition(100, -100, 100, -100, 0.3);
-                intakeMotor.setPower(1);
-                sleep(1500);
+                runToPosition(700, 700, 700, 700, 0.4);
+                runToPosition(-100, 100, -100, 700, 0.4);
+                //runToPosition(-300, -300, -300, -300, 0.4);
+                //intakeMotor.setPower(-1);
+                sleep(1800);
 
             } else if (position == 2){
                 telemetry.addLine("Position 2");
                 telemetry.update();
-                runToPosition(-900, 900, -900, 900, 0.3);
-                intakeMotor.setPower(1);
-                sleep(1500);
+                runToPosition(1100, 1100, 1100, 1100, 0.4);
+                intakeMotor.setPower(-1);
+                runToPosition(100, 100, 100, 100, 0.4);
+                intakeMotor.setPower(-1);
+                sleep(1800);
             }
         }
 
@@ -203,10 +206,10 @@ public class BlueColorThresholdAuton extends LinearOpMode {
         backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontLeftMotor.setTargetPosition(frontLeftPos);
-        frontRightMotor.setTargetPosition(frontRightPos);
-        backLeftMotor.setTargetPosition(backLeftPos);
-        backRightMotor.setTargetPosition(backRightPos);
+        frontLeftMotor.setTargetPosition(-frontLeftPos);
+        frontRightMotor.setTargetPosition(-frontRightPos);
+        backLeftMotor.setTargetPosition(-backLeftPos);
+        backRightMotor.setTargetPosition(-backRightPos);
 
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
