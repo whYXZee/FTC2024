@@ -111,8 +111,7 @@ public class BlueColorThresholdAuton extends LinearOpMode {
         ContourPipelineBlue myPipeline;
         webcam.setPipeline(myPipeline = new ContourPipelineBlue());
         // Configuration of Pipeline
-        myPipeline.configureScalarLower(scalarLowerYCrCb.val[0],scalarLowerYCrCb.val[1],scalarLowerYCrCb.val[2]);
-        myPipeline.configureScalarUpper(scalarUpperYCrCb.val[0],scalarUpperYCrCb.val[1],scalarUpperYCrCb.val[2]);
+
         // Webcam Streaming
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             //            @Override
@@ -137,19 +136,6 @@ public class BlueColorThresholdAuton extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            sleep(5000);
-            myPipeline.configureBorders(borderLeftX, borderRightX, borderTopY, borderBottomY);
-            if (myPipeline.error) {
-                telemetry.addData("Exception: ", myPipeline.debug);
-            }
-            // Only use this line of the code when you want to find the lower and upper values
-            testing(myPipeline);
-
-            telemetry.addData("RectArea: ", myPipeline.getRectArea());
-            telemetry.update();
-
-            telemetry.addData("Box Midpoint", myPipeline.getRectMidpointX());
-            // telemetry.update();
             sleep(5000);
 
             if (myPipeline.getRectArea() > 2) {
