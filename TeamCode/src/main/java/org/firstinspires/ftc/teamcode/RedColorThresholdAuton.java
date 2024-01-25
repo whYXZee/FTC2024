@@ -176,24 +176,29 @@ public class RedColorThresholdAuton extends LinearOpMode {
                 telemetry.update();
                 runToPosition(600, 600, 600, 600, 0.4);
                 runToPosition(-570, 570, -570, 570, 0.4);
-                runToPosition(-200, -200, -200, -200, 0.4);
+                runToPosition(-300, -300, -300, -300, 0.4);
                 //runToPosition(-300, -300, -300, -300, 0.4);
-                runToPosition(200, 200, 200, 200, 0.4);
-                intakeMotor.setPower(-1);
+                runToPosition(180, 180, 180, 180, 0.4);
+                intakeMotor.setPower(-0.9);
+                runToPosition(150, 150, 150, 150, 0.4);
+                sleep(250);
+                runToPosition(400, 400, -400, -400, 0.4);
                 //runToPosition(-200, -200, -200, -200, 0.4);
-                sleep(1800);
+                sleep(1500);
             }
             // if position 3
             else if (position == 3) {
                 telemetry.addLine("Position 3");
                 telemetry.update();
                 runToPosition(590, 590, 590, 590, 0.4);
-                runToPosition(565, -565, 565, -565, 0.4);
-                runToPosition(-300, -300, -300, -300, 0.4);
+                runToPosition(563, -563, 563, -563, 0.4);
+                runToPosition(-320, -320, -320, -320, 0.4);
                 //runToPosition(-300, -300, -300, -300, 0.4);
-                runToPosition(300, 300, 300, 300, 0.4);
+                runToPosition(300, 300, 300, 200, 0.4);
                 intakeMotor.setPower(-0.9);
-                //sleep(250);
+                runToPosition(150, 150, 150, 150, 0.4);
+                sleep(250);
+                runToPosition(800, 800, 800, 800, 0.4);
                 //runToPosition(-200, -200, -200, -200, 0.4);
                 sleep(1500);
 
@@ -204,7 +209,7 @@ public class RedColorThresholdAuton extends LinearOpMode {
                 intakeMotor.setPower(-1);
                 runToPosition(100, 100, 100, 100, 0.2);
                 intakeMotor.setPower(-1);
-                sleep(1800);
+                sleep(1500);
             }
         }
 

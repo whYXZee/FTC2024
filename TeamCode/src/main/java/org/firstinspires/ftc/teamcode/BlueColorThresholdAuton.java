@@ -51,8 +51,8 @@ public class BlueColorThresholdAuton extends LinearOpMode {
     private static final int CAMERA_WIDTH  = 1920; // width  of wanted camera resolution
     private static final int CAMERA_HEIGHT = 1080; // height of wanted camera resolution
 
-    private double CrLowerUpdate = 112;
-    private double CbLowerUpdate = 112;
+    private double CrLowerUpdate = 150;
+    private double CbLowerUpdate = 50;
     private double CrUpperUpdate = 255;
     private double CbUpperUpdate = 255;
 
@@ -65,8 +65,8 @@ public class BlueColorThresholdAuton extends LinearOpMode {
     private double upperruntime = 0;
 
     // Pink Range                                      Y      Cr     Cb
-    public static Scalar scalarLowerYCrCb = new Scalar(130.0, 112.0, 112.0);
-    public static Scalar scalarUpperYCrCb = new Scalar(255.0, 255.0, 255.0);
+    public static Scalar scalarLowerYCrCb = new Scalar(100, 150, 50);
+    public static Scalar scalarUpperYCrCb = new Scalar(200, 255, 255);
 
     public void runOpMode() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -144,6 +144,7 @@ public class BlueColorThresholdAuton extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
+            sleep(5000);
             myPipeline.configureBorders(borderLeftX, borderRightX, borderTopY, borderBottomY);
             if (myPipeline.error) {
                 telemetry.addData("Exception: ", myPipeline.debug);
@@ -158,18 +159,18 @@ public class BlueColorThresholdAuton extends LinearOpMode {
             // telemetry.update();
             sleep(5000);
 
-            // if (myPipeline.getRectArea() > 0.5) {
-            if (myPipeline.getRectMidpointX() > 1000) {
-                AUTONOMOUS_A();
-            } else if (myPipeline.getRectMidpointX() > 300) {
-                AUTONOMOUS_B();
-            } else {
-                AUTONOMOUS_C();
+            if (myPipeline.getRectArea() > 2) {
+                if (myPipeline.getRectMidpointX() > 1000) {
+                    AUTONOMOUS_A();
+                } else if (myPipeline.getRectMidpointX() > 300) {
+                    AUTONOMOUS_B();
+                } else {
+                    AUTONOMOUS_C();
+                }
             }
-            // }
 
 
-            // if position 1
+            /* if position 1
             if (position == 1) {
                 telemetry.addLine("Position 1");
                 telemetry.update();
@@ -197,6 +198,8 @@ public class BlueColorThresholdAuton extends LinearOpMode {
                 intakeMotor.setPower(-1);
                 sleep(1800);
             }
+
+             */
         }
 
     }
