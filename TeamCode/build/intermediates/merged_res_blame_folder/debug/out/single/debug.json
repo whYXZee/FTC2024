@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "org.firstinspires.ftc.teamcode.TeamCode-merged_res-23:/xml_teamwebcamcalibrations.xml.flat",
+        "source": "org.firstinspires.ftc.teamcode.TeamCode-main-25:/xml/teamwebcamcalibrations.xml"
+    },
+    {
+        "merged": "org.firstinspires.ftc.teamcode.TeamCode-merged_res-23:/raw_readme.md.flat",
+        "source": "org.firstinspires.ftc.teamcode.TeamCode-main-25:/raw/readme.md"
+    }
+]
