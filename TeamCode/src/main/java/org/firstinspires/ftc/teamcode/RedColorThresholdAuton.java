@@ -162,7 +162,7 @@ public class RedColorThresholdAuton extends LinearOpMode {
             // if (myPipeline.getRectArea() > 0.5) {
                 if (myPipeline.getRectMidpointX() > 1000) {
                     AUTONOMOUS_A();
-                } else if (myPipeline.getRectMidpointX() > 300) {
+                } else if (myPipeline.getRectMidpointX() > 600) {
                     AUTONOMOUS_B();
                 } else {
                     AUTONOMOUS_C();
@@ -174,42 +174,58 @@ public class RedColorThresholdAuton extends LinearOpMode {
             if (position == 1) {
                 telemetry.addLine("Position 1");
                 telemetry.update();
-                runToPosition(600, 600, 600, 600, 0.4);
-                runToPosition(-570, 570, -570, 570, 0.4);
+                runToPosition(550, 550, 550, 550, 0.4);
+                runToPosition(-500, 500, -500, 500, 0.4);
                 runToPosition(-300, -300, -300, -300, 0.4);
                 //runToPosition(-300, -300, -300, -300, 0.4);
-                runToPosition(180, 180, 180, 180, 0.4);
                 intakeMotor.setPower(-0.9);
-                runToPosition(150, 150, 150, 150, 0.4);
-                sleep(250);
-                runToPosition(400, 400, -400, -400, 0.4);
-                //runToPosition(-200, -200, -200, -200, 0.4);
-                sleep(1500);
+                runToPosition(320, 320, 320, 320, 0.4);
+                intakeMotor.setPower(0);
+                // runToPosition(400, 400, -400, -400, 0.4);
+                runToPosition(500,500,500,500,0.4);
+                //insert april tag code
             }
             // if position 3
             else if (position == 3) {
                 telemetry.addLine("Position 3");
                 telemetry.update();
-                runToPosition(590, 590, 590, 590, 0.4);
+                runToPosition(550, 550, 550, 550, 0.4);
                 runToPosition(563, -563, 563, -563, 0.4);
                 runToPosition(-320, -320, -320, -320, 0.4);
                 //runToPosition(-300, -300, -300, -300, 0.4);
-                runToPosition(300, 300, 300, 200, 0.4);
+                runToPosition(160, 160, 160, 160, 0.4);
                 intakeMotor.setPower(-0.9);
                 runToPosition(150, 150, 150, 150, 0.4);
                 sleep(250);
-                runToPosition(800, 800, 800, 800, 0.4);
+                intakeMotor.setPower(0);
+                runToPosition(-563,563,-563,563,0.4);
+                // runToPosition(800, 800, 800, 800, 0.4);
                 //runToPosition(-200, -200, -200, -200, 0.4);
                 sleep(1500);
 
             } else if (position == 2){
                 telemetry.addLine("Position 2");
                 telemetry.update();
-                runToPosition(1100, 1100, 1100, 1100, 0.6);
+                runToPosition(570,570, 570, 570,0.4);
+                runToPosition(-1100,1100,-1100,1100,0.4);
+                runToPosition(-100,-100,-100,-100,0.4);
                 intakeMotor.setPower(-1);
-                runToPosition(100, 100, 100, 100, 0.2);
-                intakeMotor.setPower(-1);
-                sleep(1500);
+                runToPosition(320, 320, 320, 320, 0.4);
+                intakeMotor.setPower(0);
+                runToPosition(500,500,500,500,0.4);
+                runToPosition(1100,-1100,-1100,1100,0.4);
+
+
+                /*runToPosition(1050, 1050, 1050, 1050, 0.6);
+                *intakeMotor.setPower(-1);
+                *runToPosition(150, 150, 150, 150, 0.2);
+                *sleep(500);
+                *intakeMotor.setPower(0);
+                *runToPosition(-100,100,100,-100, 0.5);
+                *runToPosition(-1150, -1150, -1150, -1150,.5);
+                *runToPosition(-100,100,100,-100,-.5);
+                *sleep(1500);
+                */
             }
         }
 

@@ -51,6 +51,11 @@ public class BlueColorThresholdAuton extends LinearOpMode {
     private static final int CAMERA_WIDTH  = 1920; // width  of wanted camera resolution
     private static final int CAMERA_HEIGHT = 1080; // height of wanted camera resolution
 
+    private double CrLowerUpdate = 5.0;
+    private double CbLowerUpdate = 190.0;
+    private double CrUpperUpdate = 130.0;
+    private double CbUpperUpdate = 255.0;
+
     public static double borderLeftX    = 0.0;   //fraction of pixels from the left side of the cam to skip
     public static double borderRightX   = 0.0;   //fraction of pixels from the right of the cam to skip
     public static double borderTopY     = 0.0;   //fraction of pixels from the top of the cam to skip
@@ -59,7 +64,9 @@ public class BlueColorThresholdAuton extends LinearOpMode {
     private double lowerruntime = 0;
     private double upperruntime = 0;
 
-
+    // Pink Range                                      Y      Cr     Cb
+    public static Scalar scalarLowerYCrCb = new Scalar(0.0, 5.0, 130.0);
+    public static Scalar scalarUpperYCrCb = new Scalar(255.0, 100.0, 255.0);
 
     public void runOpMode() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -109,7 +116,7 @@ public class BlueColorThresholdAuton extends LinearOpMode {
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         //OpenCV Pipeline
         ContourPipelineBlue myPipeline;
-        webcam.setPipeline(myPipeline = new ContourPipelineBlue());
+        webcam.setPipeline(myPipeline = new ContourPipelineBlue(borderLeftX,borderRightX,borderTopY,borderBottomY));
         // Configuration of Pipeline
         myPipeline.configureScalarLower(scalarLowerYCrCb.val[0],scalarLowerYCrCb.val[1],scalarLowerYCrCb.val[2]);
         myPipeline.configureScalarUpper(scalarUpperYCrCb.val[0],scalarUpperYCrCb.val[1],scalarUpperYCrCb.val[2]);
@@ -131,19 +138,19 @@ public class BlueColorThresholdAuton extends LinearOpMode {
         // Only if you are using ftcdashboard
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-        FtcDashboard.getInstance().startCameraStream(webcam, 10);
+        FtcDashboard.getInstance().startCameraStream(webcam, 30);
 
         telemetry.update();
         waitForStart();
 
         if (opModeIsActive()) {
-            sleep(5000);
+            sleep(1000);
             myPipeline.configureBorders(borderLeftX, borderRightX, borderTopY, borderBottomY);
             if (myPipeline.error) {
                 telemetry.addData("Exception: ", myPipeline.debug);
             }
             // Only use this line of the code when you want to find the lower and upper values
-            testing(myPipeline);
+            // testing(myPipeline);
 
             telemetry.addData("RectArea: ", myPipeline.getRectArea());
             telemetry.update();
@@ -152,47 +159,62 @@ public class BlueColorThresholdAuton extends LinearOpMode {
             // telemetry.update();
             sleep(5000);
 
-            if (myPipeline.getRectArea() > 2) {
-                if (myPipeline.getRectMidpointX() > 1000) {
-                    AUTONOMOUS_A();
-                } else if (myPipeline.getRectMidpointX() > 300) {
-                    AUTONOMOUS_B();
-                } else {
-                    AUTONOMOUS_C();
-                }
+            // if (myPipeline.getRectArea() > 0.5) {
+            if (myPipeline.getRectMidpointX() > 1000) {
+                AUTONOMOUS_A();
+            } else if (myPipeline.getRectMidpointX() > 600) {
+                AUTONOMOUS_B();
+            } else {
+                AUTONOMOUS_C();
             }
+            // }
 
 
-            /* if position 1
+            // if position 1
             if (position == 1) {
                 telemetry.addLine("Position 1");
                 telemetry.update();
-                runToPosition(1500, 1500, 1500, 1500, 0.4);
+                runToPosition(600, 600, 600, 600, 0.4);
+                runToPosition(-560, 560, -560, 560, 0.4);
                 runToPosition(-300, -300, -300, -300, 0.4);
-                intakeMotor.setPower(-1);
-                sleep(1800);
+                //runToPosition(-300, -300, -300, -300, 0.4);
+                runToPosition(180, 180, 180, 180, 0.4);
+                intakeMotor.setPower(-0.9);
+                runToPosition(150, 150, 150, 150, 0.4);
+                sleep(250);
+                intakeMotor.setPower(0);
+                runToPosition(400, 400, -400, -400, 0.4);
+                //runToPosition(-200, -200, -200, -200, 0.4);
+                sleep(1500);
             }
             // if position 3
             else if (position == 3) {
                 telemetry.addLine("Position 3");
                 telemetry.update();
-                runToPosition(700, 700, 700, 700, 0.4);
-                runToPosition(-100, 100, -100, 700, 0.4);
+                runToPosition(570, 570, 570, 570, 0.4);
+                runToPosition(563, -563, 563, -563, 0.4);
+                runToPosition(-320, -320, -320, -320, 0.4);
                 //runToPosition(-300, -300, -300, -300, 0.4);
-                //intakeMotor.setPower(-1);
-                sleep(1800);
+                runToPosition(160, 160, 160, 160, 0.4);
+                intakeMotor.setPower(-0.9);
+                runToPosition(150, 150, 150, 150, 0.4);
+                sleep(250);
+                intakeMotor.setPower(0);
+                // runToPosition(800, 800, 800, 800, 0.4);
+                //runToPosition(-200, -200, -200, -200, 0.4);
+                sleep(1500);
 
             } else if (position == 2){
                 telemetry.addLine("Position 2");
                 telemetry.update();
-                runToPosition(1100, 1100, 1100, 1100, 0.4);
+                runToPosition(1100, 1100, 1100, 1100, 0.6);
                 intakeMotor.setPower(-1);
-                runToPosition(100, 100, 100, 100, 0.4);
-                intakeMotor.setPower(-1);
-                sleep(1800);
+                runToPosition(150, 150, 150, 150, 0.2);
+                sleep(500);
+                intakeMotor.setPower(0);
+                // runtoPosition(,.5);
+                sleep(1500);
             }
-
-             */
         }
 
     }
@@ -218,7 +240,7 @@ public class BlueColorThresholdAuton extends LinearOpMode {
         backRightMotor.setPower(power);
         while(frontLeftMotor.isBusy() && frontRightMotor.isBusy() && backLeftMotor.isBusy() && backRightMotor.isBusy()) {}
     }
-    public void testing(ContourPipelineBlue myPipeline) {
+    public void testing(ContourPipeline myPipeline) {
         if(lowerruntime + 0.05 < getRuntime()){
             CrLowerUpdate += -gamepad1.left_stick_y;
             CbLowerUpdate += gamepad1.left_stick_x;
@@ -439,6 +461,5 @@ public class BlueColorThresholdAuton extends LinearOpMode {
         }
     }
 }
-
 
 
