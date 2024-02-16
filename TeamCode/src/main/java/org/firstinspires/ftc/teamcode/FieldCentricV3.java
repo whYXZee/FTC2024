@@ -31,11 +31,12 @@ public class FieldCentricV3 extends LinearOpMode {
     private DcMotor intakeMotor;
     private Servo leftJoint;
     private Servo rightJoint;
-    private Servo drone;
+    // private Servo drone;
     private CRServo outtake;
     private DcMotor rightArm;
     private DcMotor leftArm;
     private int tick = 0;
+    private int slides_tick = 0;
 
     private static final boolean USE_WEBCAM = true;
     private AprilTagProcessor aprilTag;
@@ -43,7 +44,8 @@ public class FieldCentricV3 extends LinearOpMode {
 
     double power = 1;
     double speedLimiter = 0.80;
-    double slideslimiter = 0.25;
+    double slideslimiter = 0.35;
+    double servo_pos = 0.92;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -56,7 +58,7 @@ public class FieldCentricV3 extends LinearOpMode {
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
         leftJoint = hardwareMap.get(Servo.class, "leftJoint");
         rightJoint = hardwareMap.get(Servo.class, "rightJoint");
-        drone = hardwareMap.get(Servo.class, "drone");
+        // drone = hardwareMap.get(Servo.class, "drone");
         outtake = hardwareMap.get(CRServo.class, "outtake");
         rightArm = hardwareMap.dcMotor.get("rightArm");
         leftArm = hardwareMap.dcMotor.get("leftArm");
@@ -88,7 +90,7 @@ public class FieldCentricV3 extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            speedLimiter = 1;
+            speedLimiter = 0.8;
             telemetryAprilTag();
 
             // Push telemetry to the Driver Station.
@@ -122,16 +124,16 @@ public class FieldCentricV3 extends LinearOpMode {
             backRightMotor.setPower(backRightPower * speedLimiter);
 
             if (gamepad2.left_trigger == 1) {
-                intakeMotor.setPower(0.5);
-                outtake.setPower(-0.7);
+                intakeMotor.setPower(0.5); // .5
+                outtake.setPower(-0.4); // .7
             }
             if (gamepad2.right_trigger == 1) {
                 intakeMotor.setPower(-0.5);
                 outtake.setPower(0.7);
             }
-            if (gamepad1.b) {
+            /*if (gamepad1.b) {
                 drone.setPosition(0.5);
-            }
+            } */
 
             if (tick == 100) {
                 if (!(gamepad2.right_trigger == 1) || !(gamepad2.left_trigger == 1)) {
@@ -149,27 +151,30 @@ public class FieldCentricV3 extends LinearOpMode {
                 leftArm.setPower(-1*slideslimiter);
                 rightArm.setPower(1*slideslimiter);
             }
-            if (tick == 50) {
+            if (slides_tick == 50) {
                 if (gamepad2.left_stick_y == 0) {
                     leftArm.setPower(-0.06);
                     rightArm.setPower(0.06);
                 }
+                slides_tick=0;
             }
             if(gamepad2.y){
                 slideslimiter = 1.0;
             }
             if (gamepad2.a) {
-                leftJoint.setPosition(0.66);
-                rightJoint.setPosition(0.66);
-                sleep(1);
+                servo_pos = 0.66; //outtake servo
+
+
             }
             if (gamepad2.b) {
-                leftJoint.setPosition(0.95);
-                rightJoint.setPosition(0.95);
-                sleep(1);
+                servo_pos = 0.92; //intake servo
+
             }
 
+            leftJoint.setPosition(servo_pos);
+            rightJoint.setPosition(servo_pos);
             tick++;
+            slides_tick++;
             telemetry.addData("left Positon", leftJoint.getPosition());
             telemetry.addData("right position", rightJoint.getPosition());
             telemetry.update();
@@ -248,7 +253,7 @@ public class FieldCentricV3 extends LinearOpMode {
             }
 
             if (detection.id < 7 && detection.id > 0 && detection.ftcPose.y < 25) {
-                speedLimiter = 0.4;
+                speedLimiter = 0.2;
             } else {
                 speedLimiter = 0.8;
             }
